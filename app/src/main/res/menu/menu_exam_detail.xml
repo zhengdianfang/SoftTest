@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <item android:id="@+id/collectMenu"
+          android:title="@string/activity_exam_detail_collect_label"
+          app:showAsAction="ifRoom"
+          android:icon="@drawable/ic_colleced" />
+
+    <item android:id="@+id/showAnswerMenu"
+          android:title="@string/menu_show_answer_label"
+          android:icon="@drawable/light_icon"/>
+
+    <item android:id="@+id/reportMenu"
+          android:title="@string/activity_exam_detail_report_label"
+          android:icon="@drawable/ic_report"/>
+</menu>

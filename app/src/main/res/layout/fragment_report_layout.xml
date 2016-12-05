@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/question_item_background_color">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/backView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/abc_ic_ab_back_material"/>
+
+        <TextView
+            android:id="@+id/toolbarTitleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
+
+
+        <Button
+            android:id="@+id/submitView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_gravity="right"
+            android:text="@string/submit_label"
+            android:background="@null"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/phoneEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:inputType="numberSigned"
+        tools:text="123123"
+        android:textColor="@android:color/black"
+        android:hint="@string/login_please_input_phone"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"/>
+
+    <EditText
+        android:id="@+id/emailEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/black"
+        android:hint="@string/fragment_report_please_input_email"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp"/>
+
+    <EditText
+        android:id="@+id/contentEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        android:lines="4"
+        android:gravity="top"
+        tools:text="123123"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/bottomAelrtView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_gravity="center"
+        android:padding="16dp"/>
+</LinearLayout>

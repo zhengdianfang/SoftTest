@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/question_item_background_color"
+    tools:context="com.zhengdianfang.softtest.ui.SettingActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:text="@string/activity_setting_title"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/myCollectView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_my_collect_label"
+        style="@style/acitivity_setting_item_style"/>
+
+
+    <TextView
+        android:id="@+id/resetPasswordView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_reset_password_label"
+        style="@style/acitivity_setting_item_style"/>
+
+    <TextView
+        android:id="@+id/payqrView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_pay_label"
+        style="@style/acitivity_setting_item_style"/>
+
+    <TextView
+        android:id="@+id/shareView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_share_label"
+        style="@style/acitivity_setting_item_style"/>
+
+    <TextView
+        android:id="@+id/reportErrorQuestionView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_report_suggest_label"
+        style="@style/acitivity_setting_item_style"/>
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_logout_label"
+        android:background="@android:color/holo_red_light"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_margin="16dp"
+        android:padding="16dp"/>
+
+</LinearLayout>
