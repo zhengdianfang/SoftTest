@@ -74,6 +74,10 @@ interface LoginApi{
     @FormUrlEncoded
     @POST("FindPawd/")
     fun resetPwdRequest(@Field("uid") uid:String):Observable<JsonNode>
+
+    @FormUrlEncoded
+    @POST("SiteGetver/")
+    fun upgradeApp(@Field("uid") uid:String, @Field("BundleIdentifier") BundleIdentifier:String = "com.HuiTongZhiYuan.RuanKao"):Observable<JsonNode>
 }
 
 interface ExamApi{
