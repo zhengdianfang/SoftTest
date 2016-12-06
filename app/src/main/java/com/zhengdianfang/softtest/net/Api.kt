@@ -85,7 +85,7 @@ interface ExamApi{
     @DESDecode
     @FormUrlEncoded
     @POST("AllExam0121/")
-    fun getExamList(@Field("uid") uid:String):Observable<JsonNode>
+    fun getExamList(@Field("uid") uid:String, @Field("BundleIdentifier") BundleIdentifier:String = "com.HuiTongZhiYuan.RuanKao"):Observable<JsonNode>
 
     @DESDecode
     @FormUrlEncoded

@@ -1,5 +1,6 @@
 package com.zhengdianfang.softtest.ui
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -31,6 +32,12 @@ class MyCollectActivity : AppCompatActivity() , CollectComeConract.View, ViewPag
     private var currentFragment:QuestionItemFragment? = null
     private var colleced = false
 
+    private val  progressDialog by lazy {
+        val dialog = ProgressDialog(this)
+        dialog.setMessage("正在加载...")
+        dialog
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exam_detail_layout)
@@ -39,8 +46,9 @@ class MyCollectActivity : AppCompatActivity() , CollectComeConract.View, ViewPag
         questionViewPager.adapter = QuestionViewPagerAdapter(this, supportFragmentManager)
         questionViewPager.addOnPageChangeListener(this)
         questionViewPager.offscreenPageLimit = 3
-        notifyQuestonCountChange()
+        questionTitleView.setText(R.string.activity_my_collect_label)
         mCollectPresenter = CollectPresenter(this, this)
+        progressDialog.show()
         mCollectPresenter?.start()
     }
 
@@ -81,7 +89,7 @@ class MyCollectActivity : AppCompatActivity() , CollectComeConract.View, ViewPag
 
     override fun onShowFailMsg(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        finish()
+        progressDialog.dismiss()
     }
 
 
@@ -97,16 +105,15 @@ class MyCollectActivity : AppCompatActivity() , CollectComeConract.View, ViewPag
         }
         checkNowQuestionCollectState(position)
         invalidateOptionsMenu()
-        notifyQuestonCountChange()
     }
 
     override fun onShowCollect(list: ArrayList<Question>) {
         this.questionList = list
         if (this.questionList != null){
             questionViewPager.adapter.notifyDataSetChanged()
-            notifyQuestonCountChange()
             checkNowQuestionCollectState(0)
         }
+        progressDialog.dismiss()
     }
 
 
@@ -122,6 +129,7 @@ class MyCollectActivity : AppCompatActivity() , CollectComeConract.View, ViewPag
 
     override fun onCheckCollectState(collect: Boolean) {
         colleced = collect
+        invalidateOptionsMenu()
     }
 
     override fun otherPlaceLogin() {
@@ -129,9 +137,6 @@ class MyCollectActivity : AppCompatActivity() , CollectComeConract.View, ViewPag
     }
 
 
-    private fun notifyQuestonCountChange(){
-        questionCountView.text = getString(R.string.menu_question_count_label, questionViewPager.currentItem + 1, questionViewPager.adapter.count + 1)
-    }
 
     private fun checkNowQuestionCollectState(position: Int){
         val item = questionList?.get(position)

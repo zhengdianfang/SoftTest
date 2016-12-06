@@ -22,7 +22,7 @@ import java.util.*
  */
 class ContentFragment : Fragment(), ExamListConract.View{
 
-    private var mPresenter:ExamListConract.Presenter? = null
+    private var mPresenter:ExamListPresenter? = null
     private val examlist:ArrayList<ExamList> = ArrayList()
     private val examListAdapter by lazy { ExamListAdapter(examlist) }
 
@@ -45,6 +45,14 @@ class ContentFragment : Fragment(), ExamListConract.View{
             true
         }
         mPresenter?.start()
+    }
+
+    fun setToolbarTitle(title:String){
+        toolbarTitleView.text = title
+    }
+
+    fun onChangeBundle(pos:Int){
+        mPresenter?.bundleId = Constants.SOFT_TYPES[pos].bundleIdentifier
     }
 
     private fun initToolbar() {

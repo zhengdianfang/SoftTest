@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         dialog
     }
 
+    private val contentFragment by lazy { supportFragmentManager?.findFragmentById(R.id.contentFragment) as ContentFragment }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,6 +47,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun changeBundle(pos:Int){
+        contentFragment?.onChangeBundle(pos)
+    }
+
+    fun changeToolbarTitle(title:String){
+        contentFragment?.setToolbarTitle(title)
+    }
 
     fun checkVersion(){
         Api.instance.request().create(LoginApi::class.java).upgradeApp(SoftTestApplication.instance.loginUser?.token ?: "")

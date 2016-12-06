@@ -31,4 +31,7 @@
         <![CDATA[点击&quot;注册&quot;即表示已阅读并接受<font color=\\\'#818fda\\\'>《用户协议》</font>]]></string>
     <string name="activity_pay_label">付款微信二维码</string>
     <string name="activity_share_label">分享</string>
+    <string name="free_use_label">免费试用</string>
+    <string name="fragment_free_question_save_label">保存至相册</string>
+    <string name="fragment_question_alert_save_alert">已保存至相册</string>
 </resources>

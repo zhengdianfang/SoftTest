@@ -127,6 +127,7 @@ public class AutoInstaller extends Handler {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri uri = FileProvider.getUriForFile(mContext, mContext.getApplicationContext().getPackageName() + ".provider", new File(filePath));
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         mContext.startActivity(intent);
       /*  if (!isAccessibilitySettingsOn(mContext)) {
             toAccessibilityService();

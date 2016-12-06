@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:clickable="true"
+              android:padding="16dp"
+              android:background="#bb000000">
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="56dp"/>
+
+    <Button
+        android:id="@+id/freeBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/free_use_label"
+        android:background="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"/>
+
+    <ImageView
+        android:id="@+id/qrCodeImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        tools:src="@mipmap/ic_launcher"
+        android:scaleType="fitCenter"/>
+
+
+    <Button
+        android:id="@+id/saveToAlumbBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_free_question_save_label"
+        android:background="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

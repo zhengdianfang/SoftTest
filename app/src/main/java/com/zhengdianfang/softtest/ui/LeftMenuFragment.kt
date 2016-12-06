@@ -34,7 +34,15 @@ class LeftMenuFragment : Fragment() {
             textView.setTextColor(Color.WHITE)
             textView.textSize = 20f
             textView.setPadding(32, 32, 0 , 32)
-            textView.setOnClickListener { selectedItemView(i) }
+            textView.setOnClickListener {
+                selectedItemView(i)
+                if ( activity is MainActivity){
+                    val ac = (activity as? MainActivity)
+                    ac?.changeBundle(selectItemIndex)
+                    ac?.toggleMenu()
+
+                }
+            }
             val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             layoutParams.topMargin = 48
             softTypesFrame.addView(textView)
@@ -53,6 +61,12 @@ class LeftMenuFragment : Fragment() {
                 childAt.setBackgroundColor(Color.TRANSPARENT)
                 childAt.setTextColor(Color.WHITE)
             }
+        }
+
+        if ( activity is MainActivity){
+            val ac = (activity as? MainActivity)
+            ac?.changeToolbarTitle(Constants.SOFT_TYPES[selectItemIndex].name)
+
         }
     }
 

@@ -22,11 +22,12 @@ class ExamDetailPresenter(val code:String, val view:ExamDetailConract.View?) : E
         Api.instance.request().create(ExamApi::class.java).getExamDetail(uid, code)
                 .map { json->
                     Logger.t(ExamDetailPresenter::class.java.simpleName).d(json.toString())
+                    val arrayList = Api.instance.json().readValue<ArrayList<Question>>(json.get("list").toString(), object : TypeReference<ArrayList<Question>>() {})
                     var errorCode = json.get("errorCode").asInt()
                     if (errorCode == 1){
-                        throw  DidNotPayException(json.get("msg").asText())
+                        throw  DidNotPayException(json.get("msg").asText(), arrayList)
                     }
-                    Api.instance.json().readValue<ArrayList<Question>>(json.get("list").toString(), object : TypeReference<ArrayList<Question>>() {})
+                    arrayList
                 }
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -35,7 +36,11 @@ class ExamDetailPresenter(val code:String, val view:ExamDetailConract.View?) : E
 
                 },{
                     e->
-                        view?.onShowFailMsg(e.message ?: "网络异常")
+                       if (e is DidNotPayException){
+                           view?.onShowFailMsg(e.message ?: "网络异常", e.freeList)
+                       }else{
+                           view?.onShowFailMsg(e.message ?: "网络异常")
+                       }
                 })
     }
 }

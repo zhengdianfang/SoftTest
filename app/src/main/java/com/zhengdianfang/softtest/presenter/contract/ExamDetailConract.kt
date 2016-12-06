@@ -15,7 +15,7 @@ interface ExamDetailConract {
 
     interface  View {
         fun onShowExamDetail(list: ArrayList<Question>)
-        fun onShowFailMsg(msg:String)
+        fun onShowFailMsg(msg:String, freeList:ArrayList<Question>? = null)
 
     }
 }

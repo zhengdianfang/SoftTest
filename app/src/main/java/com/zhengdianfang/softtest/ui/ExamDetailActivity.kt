@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -31,7 +32,6 @@ import java.util.*
  */
 class ExamDetailActivity : AppCompatActivity() , ExamDetailConract.View, CollectComeConract.View, ViewPager.OnPageChangeListener {
 
-
     private val exam by lazy { intent.getParcelableExtra<Exam>("exam") }
     private var questionList: ArrayList<Question>? = null
     private var mPresenter: ExamDetailConract.Presenter? = null
@@ -52,11 +52,26 @@ class ExamDetailActivity : AppCompatActivity() , ExamDetailConract.View, Collect
         questionViewPager.adapter = QuestionViewPagerAdapter(this, supportFragmentManager)
         questionViewPager.addOnPageChangeListener(this)
         questionViewPager.offscreenPageLimit = 3
-        notifyQuestonCountChange()
+
+        initToolbarTitle()
         mPresenter = ExamDetailPresenter(exam.code, this)
         mCollectPresenter = CollectPresenter(this, this)
         mPresenter?.start()
         loadingDialog.show()
+    }
+
+    private fun initToolbarTitle() {
+        var indexOf = exam.name.indexOf("上半年")
+        if (indexOf < 0) {
+            indexOf = exam.name.indexOf("下半年")
+        }
+        if (indexOf >= 0) {
+            val stringBuffer = StringBuffer(exam.name)
+            stringBuffer.insert(indexOf + 3, "\n")
+            questionTitleView.text = stringBuffer.toString()
+        } else {
+            questionTitleView.text = exam.name
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -89,10 +104,10 @@ class ExamDetailActivity : AppCompatActivity() , ExamDetailConract.View, Collect
             R.id.collectMenu->{
                 val question = questionList?.get(questionViewPager.currentItem)
                 if (colleced){
-                    mCollectPresenter?.cancelCollectRequest(question?.code!!, item?.order.toString())
+                    mCollectPresenter?.cancelCollectRequest(question?.code!!, question?.order.toString())
                     Toast.makeText(this, "取消收藏成功", Toast.LENGTH_SHORT).show()
                 }else{
-                    mCollectPresenter?.collectRequest(question?.code!!, item?.order.toString())
+                    mCollectPresenter?.collectRequest(question?.code!!, question?.order.toString())
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show()
                 }
                 colleced = colleced.not()
@@ -119,7 +134,6 @@ class ExamDetailActivity : AppCompatActivity() , ExamDetailConract.View, Collect
         this.questionList = list
         if (this.questionList != null){
             questionViewPager.adapter.notifyDataSetChanged()
-            notifyQuestonCountChange()
             checkNowQuestionCollectState(0)
         }
         loadingDialog.dismiss()
@@ -128,9 +142,18 @@ class ExamDetailActivity : AppCompatActivity() , ExamDetailConract.View, Collect
     override fun onShowFailMsg(msg: String) {
         loadingDialog.dismiss()
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-        finish()
     }
 
+    override fun onShowFailMsg(msg: String, freeList: ArrayList<Question>?) {
+        onShowFailMsg(msg)
+        if (freeList != null){
+            questionList = freeList
+            questionViewPager.adapter.notifyDataSetChanged()
+            checkNowQuestionCollectState(0)
+            supportFragmentManager?.beginTransaction()?.add(android.R.id.content, Fragment.instantiate(this, FreeQuestionAlertFragment::class.java.name))
+                    ?.addToBackStack("free")?.commit()
+        }
+    }
 
     override fun onPageScrollStateChanged(state: Int) {
     }
@@ -144,7 +167,6 @@ class ExamDetailActivity : AppCompatActivity() , ExamDetailConract.View, Collect
         }
         checkNowQuestionCollectState(position)
         invalidateOptionsMenu()
-        notifyQuestonCountChange()
     }
 
     override fun onShowCollect(list: ArrayList<Question>) {
@@ -164,16 +186,13 @@ class ExamDetailActivity : AppCompatActivity() , ExamDetailConract.View, Collect
 
     override fun onCheckCollectState(collect: Boolean) {
         colleced = collect
+        invalidateOptionsMenu()
     }
 
     override fun otherPlaceLogin() {
         SoftTestApplication.instance.logout()
     }
 
-
-    private fun notifyQuestonCountChange(){
-        questionCountView.text = getString(R.string.menu_question_count_label, questionViewPager.currentItem + 1, questionViewPager.adapter.count + 1)
-    }
 
     private fun checkNowQuestionCollectState(position: Int){
         val item = questionList?.get(position)
