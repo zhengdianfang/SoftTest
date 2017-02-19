@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.Target
+import com.orhanobut.logger.Logger
 import com.zhengdianfang.softtest.R
 import com.zhengdianfang.softtest.net.Api
 import kotlinx.android.synthetic.main.fragment_free_question_alert_fragment.*
@@ -45,6 +46,7 @@ class FreeQuestionAlertFragment : Fragment() {
                 }
             }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                     .subscribe {file->
+                        Logger.d("FreeQuestionAlertFragment", file.absolutePath)
                         MediaStore.Images.Media.insertImage(context?.contentResolver, file.absolutePath, file.name, "")
                         Toast.makeText(context, getString(R.string.fragment_question_alert_save_alert), Toast.LENGTH_SHORT).show()
                     }

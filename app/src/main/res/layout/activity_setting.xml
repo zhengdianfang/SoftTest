@@ -41,12 +41,12 @@
         android:text="@string/activity_reset_password_label"
         style="@style/acitivity_setting_item_style"/>
 
-    <TextView
-        android:id="@+id/payqrView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/activity_pay_label"
-        style="@style/acitivity_setting_item_style"/>
+    <!--<TextView-->
+        <!--android:id="@+id/payqrView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/activity_pay_label"-->
+        <!--style="@style/acitivity_setting_item_style"/>-->
 
     <TextView
         android:id="@+id/shareView"

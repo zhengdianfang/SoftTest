@@ -20,6 +20,11 @@ import com.zhengdianfang.softtest.net.LoginApi
 import kotlinx.android.synthetic.main.activity_setting.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import android.R.attr.thumb
+import com.umeng.socialize.media.UMWeb
+import android.R.attr.thumb
+import com.umeng.socialize.UMShareListener
+
 
 class SettingActivity : AppCompatActivity() {
 
@@ -56,11 +61,36 @@ class SettingActivity : AppCompatActivity() {
         dialog
     }
 
-    private val  shareAction by lazy { ShareAction(this).setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-            .withTitle("软考路上，你不是一个人在独行！")
-            .withText("软考-历年真题，助你一臂之力！有内容、有个性、充满正能量的复习资料")
+    private val shareWebConfig by lazy {
+        val image = UMImage(this, R.mipmap.ic_launcher)//资源文件
+        val thumb = UMImage(this, R.mipmap.ic_launcher)
+        image.setThumb(thumb)
+        val web = UMWeb(Api.SHARE_URL)
+        web.title = "软考路上，你不是一个人在独行！"//标题
+        web.setThumb(thumb)  //缩略图
+        web.description = "软考-历年真题，助你一臂之力！有内容、有个性、充满正能量的复习资料"//描述
+        web
+    }
+
+    private val  shareAction by lazy {
+            ShareAction(this).setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
             .withMedia(UMImage(this, R.mipmap.ic_launcher))
-            .withTargetUrl(Api.SHARE_URL) }
+            .withMedia(shareWebConfig)
+                    .setCallback(object : UMShareListener {
+                        override fun onResult(p0: SHARE_MEDIA?) {
+                        }
+
+                        override fun onCancel(p0: SHARE_MEDIA?) {
+                        }
+
+                        override fun onError(p0: SHARE_MEDIA?, p1: Throwable?) {
+                        }
+
+                        override fun onStart(p0: SHARE_MEDIA?) {
+                        }
+
+                    })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,10 +117,10 @@ class SettingActivity : AppCompatActivity() {
                     .addToBackStack("report").commit()
         }
 
-        payqrView.setOnClickListener {
-            supportFragmentManager.beginTransaction().add(android.R.id.content, PhotoPreviewFragment.newInstance(this,Api.QR_CODE_URL))
-                    .addToBackStack("pay").commit()
-        }
+//        payqrView.setOnClickListener {
+//            supportFragmentManager.beginTransaction().add(android.R.id.content, PhotoPreviewFragment.newInstance(this,Api.QR_CODE_URL))
+//                    .addToBackStack("pay").commit()
+//        }
 
         shareView.setOnClickListener {
             shareAction.open()
