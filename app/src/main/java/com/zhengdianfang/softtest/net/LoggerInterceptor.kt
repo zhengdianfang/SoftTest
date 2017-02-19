@@ -15,15 +15,16 @@ class LoggerInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-                    if (BuildConfig.DEBUG) {
-                Logger.t(LoggerInterceptor::class.java.simpleName).d(String.format("Sending request %s",
-                        request.url()))
-            }
-                    var response = chain.proceed(request)
+        if (BuildConfig.DEBUG) {
+            Logger.t(LoggerInterceptor::class.java.simpleName).d(String.format("Sending request %s",
+                    request.url()))
 
-            if (BuildConfig.DEBUG) {
-                val responseString = response.body().string()
-                val newResponse = response.newBuilder().body(ResponseBody.create(response.body().contentType(), responseString.toByteArray(Util.UTF_8))).build()
+        }
+                var response = chain.proceed(request)
+
+        if (BuildConfig.DEBUG) {
+            val responseString = response.body().string()
+            val newResponse = response.newBuilder().body(ResponseBody.create(response.body().contentType(), responseString.toByteArray(Util.UTF_8))).build()
 
             Logger.t(LoggerInterceptor::class.java.simpleName).d(responseString)
 

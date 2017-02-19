@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.zhengdianfang.softtest"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -22,7 +22,6 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
 
     packagingOptions {
         exclude 'LICENSE.txt'
@@ -46,7 +45,7 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'com.orhanobut:logger:1.15'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:design:25.0.1'
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.7.1-2'
