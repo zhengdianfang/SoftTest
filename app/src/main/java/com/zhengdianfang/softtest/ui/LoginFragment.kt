@@ -72,5 +72,6 @@ class LoginFragment : Fragment(), LoginContract.View{
 
     override fun loginFail(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        loadingDialog.dismiss()
     }
 }

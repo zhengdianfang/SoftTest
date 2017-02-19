@@ -27,7 +27,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:hint="@string/fragment_login_confrim_pwd"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:textColor="@android:color/black"
             app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintLeft_toLeftOf="parent"

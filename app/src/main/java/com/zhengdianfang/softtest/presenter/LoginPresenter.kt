@@ -46,6 +46,12 @@ class LoginPresenter(val context: Context, val view : LoginContract.View?) : Log
                     val editor = sharedPreferences.edit().putString("last_user", json.toString())
                     SharedPreferencesCompat.EditorCompat.getInstance().apply(editor)
                 }
+                .map({ jsonObj ->
+                    if (jsonObj.get("errorCode").asInt() != 0) {
+                        throw NullPointerException(jsonObj.get("msg").asText())
+                    }
+                    jsonObj
+                })
                 .map { json-> Api.instance.json().readValue(json.toString(), User::class.java) }
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

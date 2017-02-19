@@ -27,6 +27,7 @@ class LoadingActivity : AppCompatActivity() , LoginContract.View{
             loginPresenter.login(lastPhone, password)
         }else{
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
     }
