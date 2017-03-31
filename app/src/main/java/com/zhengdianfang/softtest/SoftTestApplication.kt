@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.support.v4.content.SharedPreferencesCompat
 import com.bumptech.glide.Glide
+import com.tendcloud.tenddata.TCAgent
 import com.umeng.socialize.PlatformConfig
 import com.umeng.socialize.UMShareAPI
 import com.zhengdianfang.softtest.bean.User
@@ -27,6 +28,7 @@ class SoftTestApplication : Application(){
 
         PlatformConfig.setWeixin("wxd2428cf6423cd1fa", "850692c6ae2db15f9eb0717af66282ab")
         UMShareAPI.get(this)
+        TCAgent.init(this, "A28231D6E0A046ABA1BEE6CE4D372548", "zhengdianfang")
     }
 
     fun logout() {
