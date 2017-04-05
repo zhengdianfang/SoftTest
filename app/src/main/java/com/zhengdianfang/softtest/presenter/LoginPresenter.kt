@@ -2,6 +2,7 @@ package com.zhengdianfang.softtest.presenter
 
 import android.content.Context
 import android.support.v4.content.SharedPreferencesCompat
+import android.text.TextUtils
 import com.zhengdianfang.softtest.R
 import com.zhengdianfang.softtest.SoftTestApplication
 import com.zhengdianfang.softtest.bean.User
@@ -21,12 +22,16 @@ class LoginPresenter(val context: Context, val view : LoginContract.View?) : Log
     override fun login(phone: String, password: String) {
         view?.showLoadingDialog()
         Api.instance.request().create(LoginApi::class.java).loginRequest(phone, password)
-                .doOnNext { json->
-                    val sharedPreferences = context.getSharedPreferences(Constants.SETTING_CACHE, Context.MODE_PRIVATE)
-                    val editor = sharedPreferences.edit().putString("phone", phone).putString("password", password)
-                    SharedPreferencesCompat.EditorCompat.getInstance().apply(editor)
-                }
                 .map { json-> Api.instance.json().readValue(json.toString(), User::class.java) }
+                .doOnNext { user ->
+                    if (TextUtils.isEmpty(user.token)) {
+                        throw NullPointerException("登录失败")
+                    }else {
+                        val sharedPreferences = context.getSharedPreferences(Constants.SETTING_CACHE, Context.MODE_PRIVATE)
+                        val editor = sharedPreferences.edit().putString("phone", phone).putString("password", password)
+                        SharedPreferencesCompat.EditorCompat.getInstance().apply(editor)
+                    }
+                }
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     user->

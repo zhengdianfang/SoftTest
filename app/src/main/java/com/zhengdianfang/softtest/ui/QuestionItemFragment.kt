@@ -46,7 +46,7 @@ abstract class QuestionItemFragment : Fragment() {
 
     abstract fun assemberViews()
 
-    private fun initQuestionAnswer() {
+    open protected fun initQuestionAnswer() {
         addDivierView(R.string.fragment_question_item_answer_label)
         questionBean?.anwsers?.forEachIndexed { i, questionAnswer ->
             var itemView = getItemView(questionAnswer.type, questionAnswer.content)

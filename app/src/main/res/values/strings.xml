@@ -34,4 +34,5 @@
     <string name="free_use_label">免费试用</string>
     <string name="fragment_free_question_save_label">保存至相册</string>
     <string name="fragment_question_alert_save_alert">已保存至相册</string>
+    <string name="forget_pwd_label">忘记密码</string>
 </resources>

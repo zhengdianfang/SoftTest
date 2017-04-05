@@ -19,7 +19,15 @@ class AfterMoonQuestonItemFragment : QuestionItemFragment() {
                     {val bundle = Bundle(); bundle.putParcelable("question", question);bundle.putInt("index", index); bundle}.invoke())
         }
     }
-    
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (questionBean != null){
+            assemberViews()
+            hideAnaswerViews()
+        }
+    }
+
     override fun assemberViews() {
         initQuestionSuggest()
     }
@@ -27,7 +35,7 @@ class AfterMoonQuestonItemFragment : QuestionItemFragment() {
     override fun initQuestionSuggest() {
         mark = contentFrame.childCount -1
         addDivierView(R.string.fragment_question_item_suggest_label)
-        questionBean?.anwsers?.forEachIndexed { i, questionAnswer ->
+        questionBean?.chooses?.forEachIndexed { i, questionAnswer ->
             var itemView = getItemView(questionAnswer.type, questionAnswer.content)
             itemView.visibility = View.GONE
             contentFrame.addView(itemView)

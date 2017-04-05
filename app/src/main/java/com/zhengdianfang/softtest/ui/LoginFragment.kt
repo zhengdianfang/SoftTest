@@ -4,15 +4,22 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.text.Html
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.zhengdianfang.softtest.R
+import com.zhengdianfang.softtest.net.Api
+import com.zhengdianfang.softtest.net.LoginApi
 import com.zhengdianfang.softtest.presenter.LoginPresenter
 import com.zhengdianfang.softtest.presenter.contract.LoginContract
 import kotlinx.android.synthetic.main.fragment_login_layout.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * Created by zheng on 2016/11/25.
@@ -22,6 +29,23 @@ class LoginFragment : Fragment(), LoginContract.View{
     private val loadingDialog:ProgressDialog by lazy { ProgressDialog(context) }
     private var mPresenter: LoginContract.Presenter? = null
     private var state = 0 //0 : login 1:register
+
+    private val resetPwdDialog by lazy {
+        val inputEdit = EditText(context)
+        inputEdit.setHint(R.string.login_please_input_phone)
+        inputEdit.inputType = InputType.TYPE_CLASS_NUMBER
+        val dialog = AlertDialog.Builder(context).setView(inputEdit).setTitle("找回密码").setPositiveButton("确定") { p0, p1 ->
+            val phone = inputEdit.text.toString()
+            if (phone.isNotBlank()){
+                loadingDialog.show()
+                resetPwdRequest(phone)
+            }
+            p0.dismiss()
+        }.setNegativeButton("取消") { p0, p1 ->
+            p0.dismiss()
+        }
+        dialog
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_login_layout, container, false)
@@ -54,6 +78,10 @@ class LoginFragment : Fragment(), LoginContract.View{
         agreementView.setOnClickListener {
             startActivity(Intent(context, AgreementWebActivity::class.java))
         }
+
+        forgetPwd.setOnClickListener {
+            resetPwdDialog.show()
+        }
     }
 
     override fun showLoadingDialog() {
@@ -73,5 +101,18 @@ class LoginFragment : Fragment(), LoginContract.View{
     override fun loginFail(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
         loadingDialog.dismiss()
+    }
+
+    private fun resetPwdRequest(phone:String){
+        Api.instance.request().create(LoginApi::class.java).resetPwdRequest(phone)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    json->
+                    loadingDialog.dismiss()
+                    Toast.makeText(context, json.get("msg").asText(), Toast.LENGTH_SHORT).show()
+                },{e->
+                    loadingDialog.dismiss()
+                    Toast.makeText(context,e.message, Toast.LENGTH_SHORT).show()
+                })
     }
 }
